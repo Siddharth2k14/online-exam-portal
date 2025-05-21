@@ -133,12 +133,12 @@ const Signup = () => {
                     </CardContent>
                     <CardHeader
                         className='signup-card-footer'
-                        title="Don't have an account?"
+                        title="Already have an account?"
                         action={
                             <Button
                                 variant='text'
                                 color='primary'
-                                href='/login'
+                                href='/student/login'
                             >
                                 Log In
                             </Button>

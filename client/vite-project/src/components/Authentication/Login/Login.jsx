@@ -3,7 +3,7 @@ import { FormControl, Card, CardHeader, CardContent, Input, InputLabel, Button }
 import './Login.css'
 import { Snackbar, Alert } from '@mui/material';
 
-const Login = () => {
+const Login = ({ name }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setError] = useState({});
@@ -62,7 +62,7 @@ const Login = () => {
         <div className='container'>
             <div className='login-card'>
                 <Card>
-                    <h2 className="login-title">Login</h2>
+                    <h2 className="login-title">Login for {name}</h2>
                     <CardContent className='login-card-body'>
                         <form
                             onSubmit={handleSubmit}
@@ -97,20 +97,39 @@ const Login = () => {
                             </FormControl>
                         </form>
                     </CardContent>
-                    <CardHeader
-                        className='login-card-footer'
-                        title="Don't have an account?"
-                        action={
-                            <Button
-                                variant='text'
-                                color='primary'
-                                href='/signup'
+
+                    {name === 'student' && (
+                        <div>
+                            <CardHeader
+                                className='login-card-footer'
+                                title="Don't have an account?"
+                                action={
+                                    <Button
+                                        variant='text'
+                                        color='primary'
+                                        href='/signup'
+                                    >
+                                        Sign Up
+                                    </Button>
+                                }
                             >
-                                Sign Up
-                            </Button>
-                        }
-                    >
-                    </CardHeader>
+                            </CardHeader>
+
+                            <CardHeader
+                                className='login-card-footer'
+                                title="Forgot Password?"
+                                action={
+                                    <Button
+                                        variant='text'
+                                        color='primary'
+                                        href='/forgetPassword'
+                                    >
+                                        Reset Password
+                                    </Button>
+                                }
+                            />
+                        </div>
+                    )}
                 </Card>
             </div>
             <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar}>
