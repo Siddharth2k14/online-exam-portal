@@ -8,7 +8,7 @@
 }
 
 .container .signup-card {
-    background-color: antiquewhite;
+    background-color: rgb(219, 240, 204);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -79,4 +79,9 @@
     margin-top: 5px; /* Adds spacing */
     font-weight: bold; /* Highlights errors */
     margin: 5px 10px;
+}
+
+.signup-card-footer .MuiCardHeader-title {
+    font-size: 1rem; /* or any smaller size you prefer */
+    font-weight: 400;
 }

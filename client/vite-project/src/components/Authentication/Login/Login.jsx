@@ -23,8 +23,6 @@ const Login = ({ name }) => {
 
 
     const validateForm = () => {
-        let errors = {};
-
         if (!email) {
             errors.email = 'Email is required';
         }

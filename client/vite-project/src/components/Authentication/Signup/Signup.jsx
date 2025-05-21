@@ -32,8 +32,6 @@ const Signup = () => {
     };
 
     const validateForm = () => {
-        let errors = {};
-
         if (!name.trim()) {
             errors.name = 'Name is required';
         }

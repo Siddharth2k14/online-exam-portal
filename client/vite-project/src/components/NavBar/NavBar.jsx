@@ -1,0 +1,60 @@
+import React, { useState } from 'react'
+import './NavBar.css'
+import { Link } from 'react-router-dom';
+
+const NavBar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleToggle = () => {
+    setMenuOpen((prev) => !prev);
+  };
+
+  const handleClose = () => {
+    setMenuOpen(false);
+  };
+
+  return (
+    <div>
+      <nav className="navbar">
+        <div className="navbar-brand">
+          <Link to="/">Exam Portal</Link>
+        </div>
+        <ul className="navbar-menu">
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/about">About</Link></li>
+          <li><Link to="/contact">Contact</Link></li>
+        </ul>
+        <div className="navbar-auth">
+          <Link to="/student/login" className="btn">Login</Link>
+          <Link to="/signup" className="btn">Sign Up</Link>
+        </div>
+        <div className="navbar-toggle" onClick={handleToggle}>
+          <span className="bar"></span>
+          <span className="bar"></span>
+          <span className="bar"></span>
+        </div>
+
+        <div className={`navbar-collapse${menuOpen ? ' open' : ''}`}>
+          <ul className="navbar-menu">
+            <li><Link to="/" onClick={handleClose}>Home</Link></li>
+            <li><Link to="/about" onClick={handleClose}>About</Link></li>
+            <li><Link to="/contact" onClick={handleClose}>Contact</Link></li>
+          </ul>
+          <div className="navbar-auth">
+            <Link to="/student/login" className="btn" onClick={handleClose}>Login</Link>
+            <Link to="/signup" className="btn" onClick={handleClose}>Sign Up</Link>
+          </div>
+        </div>
+        <div className={`navbar-overlay${menuOpen ? ' open' : ''}`} onClick={handleClose}></div>
+        <div className={`navbar-backdrop${menuOpen ? ' open' : ''}`} onClick={handleClose}></div>
+        <div className={`navbar-close${menuOpen ? ' open' : ''}`} onClick={handleClose}>
+          <span className="bar"></span>
+          <span className="bar"></span>
+          <span className="bar"></span>
+        </div>
+      </nav>
+    </div>
+  )
+}
+
+export default NavBar
