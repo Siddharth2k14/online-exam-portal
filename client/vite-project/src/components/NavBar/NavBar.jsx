@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
 import './NavBar.css'
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { red } from '@mui/material/colors';
 
-const NavBar = () => {
+const NavBar = ({ toggle, setToggle, name }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
+
+  const isAdminDash = location.pathname === '/admin/dashboard';
+  const isStudent = location.pathname === '/student/login' || location.pathname === '/student/signup';
 
   const handleToggle = () => {
     setMenuOpen((prev) => !prev);
@@ -24,17 +29,29 @@ const NavBar = () => {
           <li><Link to="/about">About</Link></li>
           <li><Link to="/contact">Contact</Link></li>
         </ul>
-        <div className="navbar-auth">
-          <Link to="/student/login" className="btn">Login</Link>
-          <Link to="/signup" className="btn">Sign Up</Link>
-        </div>
+
+        {isAdminDash ? (
+          <div className="navbar-auth">
+            <Link to="/admin/login" className="btn">Log Out</Link>
+          </div>
+        ) : (name === "admin" ? (
+          <div className="navbar-auth">
+            <Link to="/admin/login" className="btn">Login</Link>
+          </div>
+        ) : (
+          <div className="navbar-auth">
+            <Link to="/student/login" className="btn">Login</Link>
+            <Link to="/signup" className="btn">Sign Up</Link>
+          </div>
+        ))}
+
         <div className="navbar-toggle" onClick={handleToggle}>
           <span className="bar"></span>
           <span className="bar"></span>
           <span className="bar"></span>
         </div>
 
-        <div className={`navbar-collapse${menuOpen ? ' open' : ''}`}>
+        {/* <div className={`navbar-collapse${menuOpen ? ' open' : ''}`}>
           <ul className="navbar-menu">
             <li><Link to="/" onClick={handleClose}>Home</Link></li>
             <li><Link to="/about" onClick={handleClose}>About</Link></li>
@@ -51,7 +68,7 @@ const NavBar = () => {
           <span className="bar"></span>
           <span className="bar"></span>
           <span className="bar"></span>
-        </div>
+        </div> */}
       </nav>
     </div>
   )
