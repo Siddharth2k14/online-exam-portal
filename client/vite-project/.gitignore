@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+NavBar.test.jsx
+Sidebar.test.jsx
+testing
+setupTests.js
