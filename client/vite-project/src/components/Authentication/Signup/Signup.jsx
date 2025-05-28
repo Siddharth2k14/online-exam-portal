@@ -32,35 +32,54 @@ const Signup = () => {
     };
 
     const validateForm = () => {
+        const newErrors = {};
+
         if (!name.trim()) {
-            errors.name = 'Name is required';
+            newErrors.name = 'Name is required';
         }
 
         if (!email) {
-            errors.email = 'Email is required';
+            newErrors.email = 'Email is required';
         } else if (!/\S+@\S+\.\S+/.test(email)) {
-            errors.email = 'Enter a valid email';
+            newErrors.email = 'Enter a valid email';
         }
 
         if (!password) {
-            errors.password = 'Password is required';
+            newErrors.password = 'Password is required';
         } else if (password.length < 6) {
-            errors.password = 'Password must be at least 6 characters';
+            newErrors.password = 'Password must be at least 6 characters';
         }
 
         if (confirmPassword !== password) {
-            errors.confirmPassword = 'Passwords do not match';
+            newErrors.confirmPassword = 'Passwords do not match';
         }
 
-        setErrors(errors);
-        return Object.keys(errors).length === 0;
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         if (validateForm()) {
-            console.log('Signup successful!', { name, email, password });
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password, confirmPassword }),
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    // Optionally, redirect to login or auto-login
+                    window.location.href = '/student/login'; // Change as needed
+                } else {
+                    setErrors({ api: data.message || 'Signup failed' });
+                    setOpenSnackbar(true);
+                }
+            } catch (error) {
+                setErrors({ api: 'Server error' });
+                setOpenSnackbar(true);
+            }
         } else {
             setOpenSnackbar(true);
             setTimeout(() => {
@@ -93,7 +112,7 @@ const Signup = () => {
                             <FormControl>
                                 <InputLabel className='email-header'>Enter the Email</InputLabel>
                                 <Input
-                                    type='text'
+                                    type='email'
                                     placeholder='Email'
                                     className='email-input'
                                     value={email}
@@ -122,7 +141,8 @@ const Signup = () => {
                             </FormControl>
                             <FormControl>
                                 <Button className='signup-btn' variant='contained' color='primary'
-                                    onClick={handleSubmit}
+                                    type='submit'
+                                    disabled={!name || !email || !password || !confirmPassword}
                                 >
                                     Signup
                                 </Button>
@@ -147,7 +167,7 @@ const Signup = () => {
             </div>
             <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar}>
                 <Alert onClose={handleCloseSnackbar} severity="error">
-                    Please fill all required fields correctly!
+                    {errors.api || "Please fill all required fields correctly!"}
                 </Alert>
             </Snackbar>
         </div>

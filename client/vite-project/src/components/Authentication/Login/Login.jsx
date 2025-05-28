@@ -6,7 +6,7 @@ import { Snackbar, Alert } from '@mui/material';
 const Login = ({ name }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [errors, setError] = useState({});
+    const [errors, setErrors] = useState({});
     const [openSnackbar, setOpenSnackbar] = useState(false);
 
     const handleCloseSnackbar = () => {
@@ -23,30 +23,49 @@ const Login = ({ name }) => {
 
 
     const validateForm = () => {
+        const newErrors = {};
+
         if (!email) {
-            errors.email = 'Email is required';
+            newErrors.email = 'Email is required';
         }
         else if (!/\S+@\S+\.\S+/.test(email)) {
-            errors.email = 'Email is invalid';
+            newErrors.email = 'Email is invalid';
         }
 
         if (!password) {
-            errors.password = 'Password is required';
+            newErrors.password = 'Password is required';
         }
         else if (password.length < 6) {
-            errors.password = 'Password must be at least 6 characters';
+            newErrors.password = 'Password must be at least 6 characters';
         }
 
-        setError(errors);
-        return Object.keys(errors).length === 0;
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         if (validateForm()) {
-            console.log('Email:', email);
-            console.log('Password:', password);
-            // Proceed with authentication
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password }),
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    // Save token to localStorage or context
+                    localStorage.setItem('token', data.token);
+                    // Redirect or update UI as needed
+                    window.location.href = '/dashboard'; // Change as needed
+                } else {
+                    setErrors({ api: data.message || 'Login failed' });
+                    setOpenSnackbar(true);
+                }
+            } catch (error) {
+                setErrors({ api: 'Server error' });
+                setOpenSnackbar(true);
+            }
         } else {
             setOpenSnackbar(true);
             setTimeout(() => {
@@ -69,7 +88,7 @@ const Login = ({ name }) => {
                             <FormControl>
                                 <InputLabel className='email-header'>Enter the Email</InputLabel>
                                 <Input
-                                    type='text'
+                                    type='email'
                                     placeholder='Email'
                                     className='email-input'
                                     value={email}
@@ -88,7 +107,7 @@ const Login = ({ name }) => {
                             </FormControl>
                             <FormControl>
                                 <Button className='login-btn' variant='contained' color='primary'
-                                    onClick={handleSubmit}
+                                    type='submit' disabled={!email || !password || Object.keys(errors).length > 0}
                                 >
                                     Login
                                 </Button>
@@ -132,7 +151,7 @@ const Login = ({ name }) => {
             </div>
             <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar}>
                 <Alert onClose={handleCloseSnackbar} severity="error">
-                    Please fill all required fields correctly!
+                    {errors.api || "Please fill all required fields correctly!"}
                 </Alert>
             </Snackbar>
         </div>
