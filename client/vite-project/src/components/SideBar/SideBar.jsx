@@ -1,4 +1,4 @@
-import { Card, List, ListItem, ListItemText, Typography } from "@mui/material";
+import { Card, Collapse, List, ListItem, ListItemText, Typography } from "@mui/material";
 import './SideBar.css';
 import { useState } from "react";
 
@@ -26,10 +26,17 @@ const SideBar = () => {
                         gutterBottom
                         onClick={handleExamToggle}
                         style={{ cursor: 'pointer' }}
+                        className="exam-management"
                     >
                         Exam Management
                     </Typography>
-                    {examOpen && (
+
+                    <Collapse
+                        in={examOpen}
+                        timeout="auto"
+                        unmountOnExit
+                        className="exam-list"
+                    >
                         <List>
                             <ListItem button>
                                 <ListItemText primary="Exam Creation" />
@@ -41,7 +48,7 @@ const SideBar = () => {
                                 <ListItemText primary="Schedule Exams" />
                             </ListItem>
                         </List>
-                    )}
+                    </Collapse>
                 </Card>
 
                 <Card className="settings" variant="outlined" sx={{
@@ -51,10 +58,17 @@ const SideBar = () => {
                         variant="h6"
                         gutterBottom
                         onClick={handleSettingsToggle}
-                        style={{ cursor: 'pointer' }}>
+                        style={{ cursor: 'pointer' }}
+                        className="setting"
+                    >
                         Settings
                     </Typography>
-                    {settingsOpen && (
+                    <Collapse
+                        in={settingsOpen}
+                        timeout="auto"
+                        unmountOnExit
+                        className="setting-list"
+                    >
                         <List>
                             <ListItem button>
                                 <ListItemText primary="Account Settings" />
@@ -66,7 +80,7 @@ const SideBar = () => {
                                 <ListItemText primary="Theme Mode" />
                             </ListItem>
                         </List>
-                    )}
+                    </Collapse>
                 </Card>
             </div>
         </div>

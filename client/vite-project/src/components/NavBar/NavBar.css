@@ -10,7 +10,8 @@
     left: 0;
     z-index: 1000;
     width: 100vw;
-    background: #1976d2;
+    /* background: #1976d2; */
+    background: linear-gradient(195deg, #0f2027, #2c5364);
     color: #fff;
     display: flex;
     align-items: center;
@@ -39,15 +40,19 @@
     align-items: center;
 }
 
-.navbar-menu li a {
+.navbar-menu li a:hover {
     color: #fff;
     text-decoration: none;
-    font-size: 1.1rem;
-    transition: color 0.2s;
 }
 
-.navbar-menu li a:hover {
-    color: #90caf9;
+.navbar-menu li a {
+    /* color: #90caf9; */
+    background-color: linear-gradient(195deg, #0f2027, #2c5364);
+    color: transparent;
+    text-decoration: underline;
+    text-decoration-color: rgba(20, 4, 100, 0.432);
+    font-size: 1.1rem;
+    transition: color 0.2s;
 }
 
 .navbar-auth {
@@ -165,3 +170,22 @@
 }
 
 /* Optional: Style for collapse/overlay/backdrop if you implement mobile menu logic */
+
+.logout-btn {
+    background: #fff;
+    color: #1976d2;
+    padding: 6px 18px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background 0.2s, color 0.2s;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background: linear-gradient(195deg, #0f2027, #2c5364);;
+    color: #fff;
+}

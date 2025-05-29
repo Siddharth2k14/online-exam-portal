@@ -32,7 +32,7 @@ const NavBar = ({ toggle, setToggle, name }) => {
 
         {isAdminDash ? (
           <div className="navbar-auth">
-            <Link to="/admin/login" className="btn">Log Out</Link>
+            <Link to="/admin/login" className="logout-btn">Log Out</Link>
           </div>
         ) : (name === "admin" ? (
           <div className="navbar-auth">
