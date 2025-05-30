@@ -1,8 +1,8 @@
 import { Card, Collapse, List, ListItem, ListItemText, Typography } from "@mui/material";
-import './SideBar.css';
+import './AdminSideBar.css';
 import { useState } from "react";
 
-const SideBar = () => {
+const AdminSideBar = ({ onSectionSelect }) => {
     const [examOpen, setExamOpen] = useState(false);
     const [settingsOpen, setSettingsOpen] = useState(false);
 
@@ -38,13 +38,13 @@ const SideBar = () => {
                         className="exam-list"
                     >
                         <List>
-                            <ListItem button>
+                            <ListItem button onClick={() => onSectionSelect('Exam Creation')}>
                                 <ListItemText primary="Exam Creation" />
                             </ListItem>
-                            <ListItem button>
+                            <ListItem button onClick={() => onSectionSelect('Manage Exams')}>
                                 <ListItemText primary="Manage Exams" />
                             </ListItem>
-                            <ListItem button>
+                            <ListItem button onClick={() => onSectionSelect('Schedule Exams')}>
                                 <ListItemText primary="Schedule Exams" />
                             </ListItem>
                         </List>
@@ -87,4 +87,4 @@ const SideBar = () => {
     );
 }
 
-export default SideBar;
+export default AdminSideBar;
