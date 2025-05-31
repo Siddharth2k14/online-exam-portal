@@ -26,3 +26,4 @@ NavBar.test.jsx
 Sidebar.test.jsx
 testing
 setupTests.js
+adminPage.test.jsx

@@ -7,7 +7,7 @@ const Login = ({ name }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
-    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const { loading, error } = useSelector(state => state.auth);
 
     const handleCloseSnackbar = () => {
         setOpenSnackbar(false);
@@ -43,37 +43,19 @@ const Login = ({ name }) => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleLogin = async (e) => {
+        e.preventDefault();
         if (validateForm()) {
+            dispatch(loginStart());
             try {
-                const response = await fetch('http://localhost:3000/api/auth/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password }),
-                });
-                const data = await response.json();
-                if (response.ok) {
-                    // Save token to localStorage or context
-                    localStorage.setItem('token', data.token);
-                    // Redirect or update UI as needed
-                    window.location.href = '/dashboard'; // Change as needed
-                } else {
-                    setErrors({ api: data.message || 'Login failed' });
-                    setOpenSnackbar(true);
-                }
-            } catch (error) {
-                setErrors({ api: 'Server error' });
-                setOpenSnackbar(true);
-            }
-        } else {
-            setOpenSnackbar(true);
-            setTimeout(() => {
-                setOpenSnackbar(false);
-            }, 3000);
-            return;
-        }
-    }
+                // Replace with your API call
+                const userData = { email };
+                dispatch(loginSuccess(userData));
+            } catch (err) {
+                dispatch(loginFailure('Invalid credentials'));
+            };
+        };
+    };
 
     return (
         <div className='container'>
@@ -82,7 +64,7 @@ const Login = ({ name }) => {
                     <h2 className="login-title">Login for {name}</h2>
                     <CardContent className='login-card-body'>
                         <form
-                            onSubmit={handleSubmit}
+                            onSubmit={handleLogin}
                             className='login-form'
                         >
                             <FormControl>
@@ -107,7 +89,7 @@ const Login = ({ name }) => {
                             </FormControl>
                             <FormControl>
                                 <Button className='login-btn' variant='contained' color='primary'
-                                    type='submit' disabled={!email || !password || Object.keys(errors).length > 0}
+                                    type='submit' disabled={loading}
                                 >
                                     Login
                                 </Button>

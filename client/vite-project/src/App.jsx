@@ -25,10 +25,10 @@ const App = () => {
         <Route path='/admin/dashboard' element={<AdminDashboard />} />
       </Routes> */}
 
-      <NavBar />
+      {/* <NavBar /> */}
       {/* <AdminSideBar /> */}
-      {/* <AdminDashboard /> */}
-      <AdminPage />
+      <AdminDashboard />
+      {/* <AdminPage /> */}
     </div>
   )
 }
