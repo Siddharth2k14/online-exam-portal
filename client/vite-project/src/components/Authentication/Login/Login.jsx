@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
-import { FormControl, Card, CardHeader, CardContent, Input, InputLabel, Button } from '@mui/material';
-import './Login.css'
-import { Snackbar, Alert } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../../redux/authSlice'; // Adjust path as needed
+import { FormControl, Card, CardHeader, CardContent, Input, InputLabel, Button, Snackbar, Alert } from '@mui/material';
+import './Login.css';
+import { useNavigate } from 'react-router-dom';
+
 
 const Login = ({ name }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const dispatch = useDispatch();
     const { loading, error } = useSelector(state => state.auth);
+    const navigate = useNavigate();
 
     const handleCloseSnackbar = () => {
         setOpenSnackbar(false);
@@ -21,24 +27,18 @@ const Login = ({ name }) => {
         setPassword(event.target.value);
     };
 
-
     const validateForm = () => {
         const newErrors = {};
-
         if (!email) {
             newErrors.email = 'Email is required';
-        }
-        else if (!/\S+@\S+\.\S+/.test(email)) {
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
             newErrors.email = 'Email is invalid';
         }
-
         if (!password) {
             newErrors.password = 'Password is required';
-        }
-        else if (password.length < 6) {
+        } else if (password.length < 6) {
             newErrors.password = 'Password must be at least 6 characters';
         }
-
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -46,15 +46,21 @@ const Login = ({ name }) => {
     const handleLogin = async (e) => {
         e.preventDefault();
         if (validateForm()) {
-            dispatch(loginStart());
             try {
-                // Replace with your API call
-                const userData = { email };
-                dispatch(loginSuccess(userData));
+                await dispatch(login({ email, password, role: name })).unwrap();
+                // Redirect or show success as needed
+                if (name === 'admin') {
+                    navigate('/admin/dashboard');
+                } else if (name === 'student') {
+                    navigate('/student/dashboard');
+                }
             } catch (err) {
-                dispatch(loginFailure('Invalid credentials'));
-            };
-        };
+                setErrors({ api: err?.message || err?.toString() || 'Invalid credentials' });
+                setOpenSnackbar(true);
+            }
+        } else {
+            setOpenSnackbar(true);
+        }
     };
 
     return (
@@ -63,10 +69,7 @@ const Login = ({ name }) => {
                 <Card>
                     <h2 className="login-title">Login for {name}</h2>
                     <CardContent className='login-card-body'>
-                        <form
-                            onSubmit={handleLogin}
-                            className='login-form'
-                        >
+                        <form onSubmit={handleLogin} className='login-form'>
                             <FormControl>
                                 <InputLabel className='email-header'>Enter the Email</InputLabel>
                                 <Input
@@ -111,9 +114,7 @@ const Login = ({ name }) => {
                                         Sign Up
                                     </Button>
                                 }
-                            >
-                            </CardHeader>
-
+                            />
                             <CardHeader
                                 className='login-card-footer'
                                 title="Forgot Password?"
@@ -131,9 +132,11 @@ const Login = ({ name }) => {
                     )}
                 </Card>
             </div>
-            <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar}>
+            <Snackbar open={openSnackbar || !!error} autoHideDuration={3000} onClose={handleCloseSnackbar}>
                 <Alert onClose={handleCloseSnackbar} severity="error">
-                    {errors.api || "Please fill all required fields correctly!"}
+                    {(errors.api && errors.api.toString()) ||
+                        (error && error.toString()) ||
+                        "Please fill all required fields correctly!"}
                 </Alert>
             </Snackbar>
         </div>

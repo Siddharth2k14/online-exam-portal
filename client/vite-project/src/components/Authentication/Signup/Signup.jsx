@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { FormControl, Card, CardHeader, CardContent, Input, InputLabel, Button } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { signup } from '../../../redux/authSlice'; // Adjust path as needed
+import { FormControl, Card, CardHeader, CardContent, Input, InputLabel, Button, Snackbar, Alert } from '@mui/material';
 import './Signup.css'
-import { Snackbar, Alert } from '@mui/material';
 
 const Signup = () => {
     const [name, setName] = useState('');
@@ -11,81 +12,42 @@ const Signup = () => {
     const [errors, setErrors] = useState({});
     const [openSnackbar, setOpenSnackbar] = useState(false);
 
+    const dispatch = useDispatch();
+    const { loading, error } = useSelector(state => state.auth);
+
     const handleCloseSnackbar = () => {
         setOpenSnackbar(false);
     };
 
-    const handleNameChange = (event) => {
-        setName(event.target.value);
-    };
-
-    const handleEmailChange = (event) => {
-        setEmail(event.target.value);
-    };
-
-    const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
-    };
-
-    const handleConfirmPasswordChange = (event) => {
-        setConfirmPassword(event.target.value);
-    };
+    const handleNameChange = (event) => setName(event.target.value);
+    const handleEmailChange = (event) => setEmail(event.target.value);
+    const handlePasswordChange = (event) => setPassword(event.target.value);
+    const handleConfirmPasswordChange = (event) => setConfirmPassword(event.target.value);
 
     const validateForm = () => {
         const newErrors = {};
-
-        if (!name.trim()) {
-            newErrors.name = 'Name is required';
-        }
-
-        if (!email) {
-            newErrors.email = 'Email is required';
-        } else if (!/\S+@\S+\.\S+/.test(email)) {
-            newErrors.email = 'Enter a valid email';
-        }
-
-        if (!password) {
-            newErrors.password = 'Password is required';
-        } else if (password.length < 6) {
-            newErrors.password = 'Password must be at least 6 characters';
-        }
-
-        if (confirmPassword !== password) {
-            newErrors.confirmPassword = 'Passwords do not match';
-        }
-
+        if (!name.trim()) newErrors.name = 'Name is required';
+        if (!email) newErrors.email = 'Email is required';
+        else if (!/\S+@\S+\.\S+/.test(email)) newErrors.email = 'Enter a valid email';
+        if (!password) newErrors.password = 'Password is required';
+        else if (password.length < 6) newErrors.password = 'Password must be at least 6 characters';
+        if (confirmPassword !== password) newErrors.confirmPassword = 'Passwords do not match';
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         if (validateForm()) {
             try {
-                const response = await fetch('http://localhost:3000/api/auth/signup', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, password, confirmPassword }),
-                });
-                const data = await response.json();
-                if (response.ok) {
-                    // Optionally, redirect to login or auto-login
-                    window.location.href = '/student/login'; // Change as needed
-                } else {
-                    setErrors({ api: data.message || 'Signup failed' });
-                    setOpenSnackbar(true);
-                }
-            } catch (error) {
-                setErrors({ api: 'Server error' });
+                await dispatch(signup({ name, email, password, confirmPassword })).unwrap();
+                window.location.href = '/student/login'; // Or use navigate if using react-router
+            } catch (err) {
+                setErrors({ api: err || 'Signup failed' });
                 setOpenSnackbar(true);
             }
         } else {
             setOpenSnackbar(true);
-            setTimeout(() => {
-                setOpenSnackbar(false);
-            }, 3000);
-            return;
         }
     };
 
@@ -95,10 +57,7 @@ const Signup = () => {
                 <Card>
                     <h2 className="signup-title">Signup</h2>
                     <CardContent className='signup-card-body'>
-                        <form
-                            onSubmit={handleSubmit}
-                            className='signup-form'
-                        >
+                        <form onSubmit={handleSubmit} className='signup-form'>
                             <FormControl>
                                 <InputLabel className='name-header'>Enter the Name</InputLabel>
                                 <Input
@@ -142,7 +101,7 @@ const Signup = () => {
                             <FormControl>
                                 <Button className='signup-btn' variant='contained' color='primary'
                                     type='submit'
-                                    disabled={!name || !email || !password || !confirmPassword}
+                                    disabled={loading || !name || !email || !password || !confirmPassword}
                                 >
                                     Signup
                                 </Button>
@@ -161,17 +120,16 @@ const Signup = () => {
                                 Log In
                             </Button>
                         }
-                    >
-                    </CardHeader>
+                    />
                 </Card>
             </div>
-            <Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar}>
+            <Snackbar open={openSnackbar || !!error} autoHideDuration={3000} onClose={handleCloseSnackbar}>
                 <Alert onClose={handleCloseSnackbar} severity="error">
-                    {errors.api || "Please fill all required fields correctly!"}
+                    {errors.api || error || "Please fill all required fields correctly!"}
                 </Alert>
             </Snackbar>
         </div>
     )
 }
 
-export default Signup
+export default Signup;
