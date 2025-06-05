@@ -9,6 +9,7 @@ import NavBar from './components/NavBar/NavBar';
 import AdminSideBar from './components/Admin SideBar/AdminSideBar'
 import AdminDashboard from './pages/admin/Admin Dashboard/AdminDashboard';
 import AdminPage from './components/AdminPage/AdminPage'
+import ObjectiveExamCreation from './components/Objective Exam Creation/ObjectiveExamCreation';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path='/student' element={<Student />} />
         <Route path='/forgetPassword' element={<ForgetPassword />} />
         <Route path='/admin/dashboard' element={<AdminDashboard />} />
+        <Route path='/exam-creation/objective' element={<ObjectiveExamCreation />} />
       </Routes>
 
       {/* <NavBar /> */}

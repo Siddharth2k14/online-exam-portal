@@ -5,6 +5,8 @@
     position: absolute;
     top: 65px;
     left: 261px;
+  background: linear-gradient(245deg, #0f2027, #2c5364);
+    color: white;
 }
 
 .admin-heading {
@@ -13,13 +15,17 @@
     text-align: center;
     margin-top: 20px;
     margin-bottom: 30px;
-    color: #222;
+    /* color: #222; */
     letter-spacing: 1px;
 }
 
 .horizontal-line {
     border: none;
-    border-top: 2px solid black;
+    border-top: 2px solid white;
     margin: 0 30px 30px 30px;
     height: 0;
+}
+.admin-welcome {
+    text-align: center;
+    margin-bottom: 20px;
 }

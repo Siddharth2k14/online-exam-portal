@@ -63,6 +63,33 @@ app.post('/api/auth/:role/login', async (req, res) => {
     res.json({ user: data.user, token: data.session.access_token, role });
 });
 
+app.post('/api/questions', async (req, res) => {
+    const { examTitle, question, options, correct } = req.body;
+    if (!examTitle || !question || !options || correct === undefined || correct === null) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
+    const { data, error } = await supabase
+        .from('questions')
+        .insert([{ exam_title: examTitle, question, options, correct }]);
+    if (error) {
+        console.log('Supabase error:', error);
+        return res.status(500).json({ message: error.message });
+    }
+    res.status(201).json({ question: data[0] });
+});
+
+app.get('/api/questions/:examTitle', async (req, res) => {
+    const { examTitle } = req.params;
+    const { data, error } = await supabase
+        .from('questions')
+        .select('*')
+        .eq('exam_title', examTitle);
+    if (error) {
+        return res.status(400).json({ message: error.message });
+    }
+    res.json({ questions: data });
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 })

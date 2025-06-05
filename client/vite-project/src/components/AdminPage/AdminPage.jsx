@@ -40,12 +40,14 @@ const AdminPage = () => {
 
     return (
       <>
-        <Typography variant="h6" gutterBottom>
-          Welcome, Admin!
-        </Typography>
-        <Typography variant="body1">
-          Use the sidebar to manage exams and settings.
-        </Typography>
+        <div className='admin-welcome'>
+          <Typography variant="h6" gutterBottom>
+            Welcome, Admin!
+          </Typography>
+          <Typography variant="body1">
+            Use the sidebar to manage exams and settings.
+          </Typography>
+        </div>
       </>
     );
   };

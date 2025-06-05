@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Card,
   FormControl,
@@ -13,14 +14,22 @@ import {
   Alert
 } from '@mui/material';
 import './ExamCreation.css';
+import ObjectiveExamCreation from '../Objective Exam Creation/ObjectiveExamCreation';
 
 const ExamCreation = () => {
   const [titleExam, setTitleExam] = useState('');
   const [open, setOpen] = useState(false);
-  const [examType, setExamType] = useState();
+  const [examType, setExamType] = useState('objective');
+  const [examCreated, setExamCreated] = useState(false);
+  const navigate = useNavigate();
 
   const handleCreateExam = () => {
     setOpen(true);
+    setExamCreated(true);
+    if (examType === 'objective') {
+      navigate('/exam-creation/objective', { state: { titleExam } });
+    }
+    // You can add similar logic for subjective if needed
   };
 
   const handleClose = (event, reason) => {
@@ -28,13 +37,14 @@ const ExamCreation = () => {
     setOpen(false);
   };
 
+
   return (
     <>
-      <Typography 
-        variant='h6' 
+      <Typography
+        variant='h6'
         gutterBottom
         sx={{
-            textAlign: 'center'
+          textAlign: 'center'
         }}
       >
         Exam Creation
@@ -51,20 +61,21 @@ const ExamCreation = () => {
 
         <FormControl className='form-type'>
           <FormLabel className='form-type-label'>Type of Exam</FormLabel>
-          <RadioGroup defaultValue="objective">
+          <RadioGroup
+            defaultValue="objective"
+            onChange={(e) => setExamType(e.target.value)}
+          >
             <FormControlLabel
               value="objective"
               control={<Radio />}
               label="Objective"
               className='form-type-radio'
-              onChange={(e) => setExamType(e.target.value)}
             />
             <FormControlLabel
               value="subjective"
               control={<Radio />}
               label="Subjective"
               className='form-type-radio'
-              onChange={(e) => setExamType(e.target.value)}
             />
           </RadioGroup>
         </FormControl>
