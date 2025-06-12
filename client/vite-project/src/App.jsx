@@ -10,6 +10,8 @@ import AdminSideBar from './components/Admin SideBar/AdminSideBar'
 import AdminDashboard from './pages/admin/Admin Dashboard/AdminDashboard';
 import AdminPage from './components/AdminPage/AdminPage'
 import ObjectiveExamCreation from './components/Objective Exam Creation/ObjectiveExamCreation';
+import ObjectiveExamPage from './pages/admin/Objective Exam Page/ObjectiveExamPage';
+import ManageExam from './components/Manage Exams/ManageExam';
 
 const App = () => {
   return (
@@ -24,13 +26,14 @@ const App = () => {
         <Route path='/student' element={<Student />} />
         <Route path='/forgetPassword' element={<ForgetPassword />} />
         <Route path='/admin/dashboard' element={<AdminDashboard />} />
-        <Route path='/exam-creation/objective' element={<ObjectiveExamCreation />} />
+        <Route path='/exam-creation/objective' element={<ObjectiveExamPage />} />
       </Routes>
 
       {/* <NavBar /> */}
       {/* <AdminSideBar /> */}
       {/* <AdminDashboard /> */}
       {/* <AdminPage /> */}
+      {/* <ManageExam /> */}
     </div>
   )
 }

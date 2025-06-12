@@ -3,6 +3,7 @@ import './AdminPage.css';
 import { Card, CardContent, Typography } from '@mui/material';
 import AdminSideBar from '../Admin SideBar/AdminSideBar';
 import ExamCreation from '../Exam Creation/ExamCreation';
+import ManageExam from '../Manage Exams/ManageExam';
 
 const AdminPage = () => {
   const [selectedSection, setSelectedSection] = useState('');
@@ -14,16 +15,7 @@ const AdminPage = () => {
       return <ExamCreation />;
     }
     else if (selectedSection === 'Manage Exams') {
-      return (
-        <>
-          <Typography variant='h6' gutterBottom>
-            Manage Exams
-          </Typography>
-          <Typography variant='body1'>
-            Here we can manage exams.
-          </Typography>
-        </>
-      );
+      return <ManageExam />;
     }
     else if (selectedSection === 'Schedule Exams') {
       return (

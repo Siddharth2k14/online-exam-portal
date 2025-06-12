@@ -1,14 +1,19 @@
-const express = require('express');
-const cors = require('cors');
-const { createClient } = require('@supabase/supabase-js');
-require('dotenv').config();
+// const express = require('express');
+// const cors = require('cors');
+// const { createClient } = require('@supabase/supabase-js');
+
+import express from 'express';
+import cors from 'cors';
+import { createClient } from '@supabase/supabase-js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 const PORT = 3000;
 
 const supabase = createClient(
-    process.env.VITE_SUPABASE_URL,
-    process.env.VITE_SUPABASE_ANON_KEY
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_ANON_KEY
 );
 
 app.use(cors());
@@ -75,6 +80,10 @@ app.post('/api/questions', async (req, res) => {
         console.log('Supabase error:', error);
         return res.status(500).json({ message: error.message });
     }
+    // Fix: Check if data exists and has at least one element
+    if (!data || !data[0]) {
+        return res.status(500).json({ message: 'Insert failed or returned no data.' });
+    }
     res.status(201).json({ question: data[0] });
 });
 
@@ -90,6 +99,27 @@ app.get('/api/questions/:examTitle', async (req, res) => {
     res.json({ questions: data });
 });
 
+app.get('/api/questions/all', async (req, res) => {
+    const { data, error } = await supabase.from('questions').select();
+    console.log('Supabase data:', data, 'error:', error); // Add this line
+    if (error) {
+        return res.status(400).json({ message: error.message });
+    }
+
+    // Group questions by exam_title
+    const grouped = {};
+    data.forEach(q => {
+        if(!grouped[q.exam_title]){
+            grouped[q.exam_title] = [];
+        }
+        grouped[q.exam_title].push(q);
+    })
+    res.json({ questions: grouped });
+})
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-})
+});
+
+// console.log('SUPABASE_URLy:', process.env.SUPABASE_URL);
+// console.log('SUPABASE_ANON_KEY:', process.env.SUPABASE_ANON_KEY ? 'Loaded' : 'Missing');
