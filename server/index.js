@@ -11,10 +11,14 @@ dotenv.config();
 const app = express();
 const PORT = 3000;
 
-const supabase = createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_ANON_KEY
-);
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+if (!supabaseUrl || !supabaseAnonKey) {
+    console.error('Supabase URL or Anon Key is missing. Please check your .env file.');
+    process.exit(1);
+};
+// Middleware
 
 app.use(cors());
 app.use(express.json());
@@ -93,29 +97,43 @@ app.get('/api/questions/:examTitle', async (req, res) => {
         .from('questions')
         .select('*')
         .eq('exam_title', examTitle);
+    
     if (error) {
         return res.status(400).json({ message: error.message });
     }
-    res.json({ questions: data });
+
+    // Ensure data is properly structured
+    if (!data || data.length === 0) {
+        return res.status(404).json({ message: 'No questions found for this exam' });
+    }
+
+    res.json({ questions: data }); // ✅ Fix: return `data` directly instead of `grouped`
 });
+
 
 app.get('/api/questions/all', async (req, res) => {
     const { data, error } = await supabase.from('questions').select();
-    console.log('Supabase data:', data, 'error:', error); // Add this line
+    
+    console.log('Supabase data:', data, 'error:', error);
+
     if (error) {
-        return res.status(400).json({ message: error.message });
+        console.error('Supabase Query Error:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+
+    if (!data || data.length === 0) {
+        return res.status(404).json({ message: 'No questions found' });
     }
 
     // Group questions by exam_title
     const grouped = {};
     data.forEach(q => {
-        if(!grouped[q.exam_title]){
-            grouped[q.exam_title] = [];
-        }
+        if (!grouped[q.exam_title]) grouped[q.exam_title] = [];
         grouped[q.exam_title].push(q);
-    })
+    });
+
     res.json({ questions: grouped });
-})
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

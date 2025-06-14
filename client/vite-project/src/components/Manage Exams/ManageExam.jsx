@@ -1,54 +1,40 @@
 import { Card, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteExam } from '../../redux/examSlice';
 import './ManageExam.css';
+import { useNavigate } from 'react-router-dom';
 
 const ManageExam = () => {
-  const [exams, setExams] = useState({});
+  const exams = useSelector(state => state.exams.exams);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    // Fetch all questions from your backend API
-    fetch('http://localhost:3000/api/questions/all')
-      .then(res => res.json())
-      .then(data => {
-        console.log('Fetched questions:', data); // <-- Add this line
-        // Group questions by exam_title
-        const grouped = {};
-        data.questions.forEach(q => {
-          if (!grouped[q.exam_title]) grouped[q.exam_title] = [];
-          grouped[q.exam_title].push(q);
-        });
-        setExams(grouped);
-      });
-  }, []);
+  const handleView = (title) => {
+    navigate(`/manage-exam/view/${encodeURIComponent(title)}`);
+  };
 
-  console.log('Grouped exams:', exams);
+  const handleDelete = (title) => {
+    if (window.confirm(`Are you sure you want to delete "${title}"?`)) {
+      dispatch(deleteExam(title));
+    }
+  };
 
   return (
     <div>
-      <Card className='page-header'>
-        <Typography className='page-header-text'>
-          Manage Exam Page
-        </Typography>
-      </Card>
-
+      <Typography variant="h4" className="manage-exam-title" style={{ margin: '32px 0 16px 0', textAlign: 'center' }}>
+        Manage Exams
+      </Typography>
       <div className="exam-cards-container">
-        {Object.entries(exams).length > 0 ? (
-          Object.entries(exams).map(([examTitle, questions]) => (
-            <Card key={examTitle} className="exam-card">
-              <Typography variant="h6">{examTitle}</Typography>
-              <Typography variant="body2">
-                {questions.length} Questions
+        {exams.length > 0 ? (
+          exams.map((exam) => (
+            <Card key={exam.title} className="exam-card">
+              <Typography variant="h6">{exam.title}</Typography>
+              <Typography variant="body2" style={{ margin: '8px 0' }}>
+                {exam.questions.length} Questions
               </Typography>
-              <ul>
-                {questions.map((q, index) => (
-                  <li key={index}>
-                    <Typography variant="body2">{q.question}</Typography>
-                  </li>
-                ))}
-              </ul>
               <div className="exam-actions">
-                <button className="action-button">Edit</button>
-                <button className="action-button">Delete</button>
+                <button className="action-button" onClick={() => handleView(exam.title)}>View</button>
+                <button className="action-button" onClick={() => handleDelete(exam.title)}>Delete</button>
               </div>
             </Card>
           ))

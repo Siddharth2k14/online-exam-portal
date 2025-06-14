@@ -15,6 +15,8 @@ import {
 } from '@mui/material';
 import './ExamCreation.css';
 import ObjectiveExamCreation from '../Objective Exam Creation/ObjectiveExamCreation';
+import { useDispatch } from 'react-redux';
+import { addExam } from '../../redux/examSlice';
 
 const ExamCreation = () => {
   const [titleExam, setTitleExam] = useState('');
@@ -22,10 +24,13 @@ const ExamCreation = () => {
   const [examType, setExamType] = useState('objective');
   const [examCreated, setExamCreated] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleCreateExam = () => {
     setOpen(true);
     setExamCreated(true);
+    // Dispatch to Redux
+    dispatch(addExam({ title: titleExam, type: examType }));
     if (examType === 'objective') {
       navigate('/exam-creation/objective', { state: { titleExam } });
     }

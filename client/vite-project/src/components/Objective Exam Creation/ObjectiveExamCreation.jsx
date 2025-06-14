@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import './ObjectiveExamCreation.css';
-import { addQuestion } from '../../redux/questionSlice';
+import { addQuestionToExam } from '../../redux/examSlice';
 
 const ObjectiveExamCreation = () => {
   const location = useLocation();
@@ -31,11 +31,13 @@ const ObjectiveExamCreation = () => {
       return;
     }
     // Save to Redux
-    dispatch(addQuestion({
-      question,
-      options,
-      correct,
-      examTitle: titleExam,
+    dispatch(addQuestionToExam({
+      title: titleExam,
+      question: {
+        question,
+        options,
+        correct,
+      }
     }));
 
     // Save to backend
