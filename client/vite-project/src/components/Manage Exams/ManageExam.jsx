@@ -1,21 +1,40 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Card, Typography } from '@mui/material';
-import { useSelector, useDispatch } from 'react-redux';
-import { deleteExam } from '../../redux/examSlice';
 import './ManageExam.css';
-import { useNavigate } from 'react-router-dom';
 
 const ManageExam = () => {
-  const exams = useSelector(state => state.exams.exams);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [exams, setExams] = useState([]);
+
+  useEffect(() => {
+    const fetchExams = async () => {
+      try {
+        const res = await axios.get('http://localhost:3000/api/questions/all');
+        if (res.data && res.data.questions) {
+          const formattedExams = Object.entries(res.data.questions).map(([title, questions]) => ({
+            title,
+            questions,
+          }));
+          setExams(formattedExams);
+        }
+      } catch (error) {
+        console.error('Error fetching exams:', error.message);
+        setExams([]);
+      }
+    };
+    fetchExams();
+  }, []);
 
   const handleView = (title) => {
-    navigate(`/manage-exam/view/${encodeURIComponent(title)}`);
+    alert(`View exam: ${title}`);
   };
 
-  const handleDelete = (title) => {
-    if (window.confirm(`Are you sure you want to delete "${title}"?`)) {
-      dispatch(deleteExam(title));
+  const handleDelete = async (title) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/questions/${title}`);
+      setExams((prev) => prev.filter((exam) => exam.title !== title));
+    } catch (error) {
+      console.error('Error deleting exam:', error.message);
     }
   };
 
