@@ -17,6 +17,7 @@ import './ExamCreation.css';
 import ObjectiveExamCreation from '../Objective Exam Creation/ObjectiveExamCreation';
 import { useDispatch } from 'react-redux';
 import { addExam } from '../../redux/examSlice';
+import axios from 'axios';
 
 const ExamCreation = () => {
   const [titleExam, setTitleExam] = useState('');
@@ -26,11 +27,15 @@ const ExamCreation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleCreateExam = () => {
+  const handleCreateExam = async () => {
     setOpen(true);
     setExamCreated(true);
     // Dispatch to Redux
     dispatch(addExam({ title: titleExam, type: examType }));
+
+    // Save exam to backend (optional, if you have an endpoint)
+    // await axios.post('http://localhost:3000/api/exams', { title: titleExam, type: examType });
+
     if (examType === 'objective') {
       navigate('/exam-creation/objective', { state: { titleExam } });
     }
@@ -42,6 +47,15 @@ const ExamCreation = () => {
     setOpen(false);
   };
 
+  // handleDelete is already correct:
+  const handleDelete = async (title) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/questions/${title}`);
+      setExams((prev) => prev.filter((exam) => exam.title !== title));
+    } catch (error) {
+      console.error('Error deleting exam:', error.message);
+    }
+  };
 
   return (
     <>

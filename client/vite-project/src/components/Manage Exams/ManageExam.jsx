@@ -1,68 +1,92 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Card, Typography } from '@mui/material';
-import './ManageExam.css';
+import React, { useEffect, useState } from 'react';
+import { Card, Typography, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import ViewExam from './ViewExam';
 
 const ManageExam = () => {
   const [exams, setExams] = useState([]);
+  const [viewExamTitle, setViewExamTitle] = useState(null);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchExams = async () => {
-      try {
-        const res = await axios.get('http://localhost:3000/api/questions/all');
-        if (res.data && res.data.questions) {
-          const formattedExams = Object.entries(res.data.questions).map(([title, questions]) => ({
-            title,
-            questions,
-          }));
-          setExams(formattedExams);
-        }
-      } catch (error) {
-        console.error('Error fetching exams:', error.message);
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/questions/all');
+      const data = await response.json();
+      // Transform grouped object to array for rendering
+      if (data.questions) {
+        const examsArray = Object.entries(data.questions).map(([exam_title, questions]) => ({
+          exam_title,
+          questions,
+        }));
+        setExams(examsArray);
+      } else {
         setExams([]);
       }
-    };
-    fetchExams();
-  }, []);
-
-  const handleView = (title) => {
-    alert(`View exam: ${title}`);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setExams([]);
+    }
   };
 
-  const handleDelete = async (title) => {
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleView = (exam_title) => {
+    navigate(`/manage-exams/${encodeURIComponent(exam_title)}`);
+  };
+
+  const handleDelete = async (exam_title) => {
     try {
-      await axios.delete(`http://localhost:3000/api/questions/${title}`);
-      setExams((prev) => prev.filter((exam) => exam.title !== title));
+      await fetch(`http://localhost:3000/api/questions/${exam_title}`, { method: 'DELETE' });
+      setExams((prev) => prev.filter((exam) => exam.exam_title !== exam_title));
     } catch (error) {
-      console.error('Error deleting exam:', error.message);
+      alert('Error deleting exam');
     }
   };
 
   return (
     <div>
-      <Typography variant="h4" className="manage-exam-title" style={{ margin: '32px 0 16px 0', textAlign: 'center' }}>
+      <Typography variant="h4" style={{ margin: '32px 0 16px 0', textAlign: 'center' }}>
         Manage Exams
       </Typography>
-      <div className="exam-cards-container">
-        {exams.length > 0 ? (
-          exams.map((exam) => (
-            <Card key={exam.title} className="exam-card">
-              <Typography variant="h6">{exam.title}</Typography>
-              <Typography variant="body2" style={{ margin: '8px 0' }}>
-                {exam.questions.length} Questions
-              </Typography>
-              <div className="exam-actions">
-                <button className="action-button" onClick={() => handleView(exam.title)}>View</button>
-                <button className="action-button" onClick={() => handleDelete(exam.title)}>Delete</button>
-              </div>
-            </Card>
-          ))
-        ) : (
-          <Typography variant="body1" className="no-exams-text">
-            No exams available.
-          </Typography>
-        )}
-      </div>
+      {viewExamTitle ? (
+        <ViewExam exam_title={viewExamTitle} onClose={() => setViewExamTitle(null)} />
+      ) : (
+        <div className="exam-cards-container">
+          {exams.length > 0 ? (
+            exams.map((exam) => (
+              <Card key={exam.exam_title} style={{ margin: 16, padding: 16 }}>
+                <Typography variant="h6">{exam.exam_title}</Typography>
+                <Typography variant="body2" style={{ margin: '8px 0' }}>
+                  {exam.questions.length} Questions
+                </Typography>
+                <div>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleView(exam.exam_title)}
+                    style={{ marginRight: 8 }}
+                  >
+                    View
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => handleDelete(exam.exam_title)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </Card>
+            ))
+          ) : (
+            <Typography variant="body1" style={{ textAlign: 'center' }}>
+              No exams available.
+            </Typography>
+          )}
+        </div>
+      )}
     </div>
   );
 };

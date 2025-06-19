@@ -1,8 +1,7 @@
 import express from 'express';
-const router = express.Router();
+import AuthModel from '../Models/AuthModel.js';
 
-// In-memory user storage for demonstration only
-const users = [];
+const router = express.Router();
 
 router.post('/signup', async (req, res) => {
     const { name, email, password, confirmPassword } = req.body;
@@ -13,11 +12,12 @@ router.post('/signup', async (req, res) => {
         return res.status(400).json({ message: 'Passwords do not match' });
     }
     // Check if user already exists
-    if (users.find(u => u.email === email)) {
+    const existingUser = await AuthModel.findOne({ email });
+    if (existingUser) {
         return res.status(400).json({ message: 'User already exists' });
     }
-    const user = { name, email, password };
-    users.push(user);
+    const user = new AuthModel({ email, password });
+    await user.save();
     res.status(201).json({ user: { name, email }, token: 'mock-token' });
 });
 
@@ -37,12 +37,12 @@ router.post('/:role/login', async (req, res) => {
         });
     }
 
-    // Student login (in-memory check)
-    const user = users.find(u => u.email === email && u.password === password);
+    // Student login (MongoDB check)
+    const user = await AuthModel.findOne({ email, password });
     if (!user) {
         return res.status(401).json({ message: 'Invalid credentials' });
     }
-    res.json({ user: { name: user.name, email: user.email }, token: 'mock-token', role });
+    res.json({ user: { name: user.name || user.email, email: user.email }, token: 'mock-token', role });
 });
 
 export default router;

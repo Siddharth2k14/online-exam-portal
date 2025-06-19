@@ -28,7 +28,7 @@ const App = () => {
         <Route path='/forgetPassword' element={<ForgetPassword />} />
         <Route path='/admin/dashboard' element={<AdminDashboard />} />
         <Route path='/exam-creation/objective' element={<ObjectiveExamPage />} />
-        <Route path="/manage-exam/view/:examTitle" element={<ViewExam />} />
+        <Route path="/manage-exams/:examTitle" element={<ViewExam />} />
       </Routes>
 
       {/* <NavBar /> */}
