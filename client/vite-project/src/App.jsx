@@ -13,6 +13,7 @@ import ObjectiveExamCreation from './components/Objective Exam Creation/Objectiv
 import ObjectiveExamPage from './pages/admin/Objective Exam Page/ObjectiveExamPage';
 import ManageExam from './components/Manage Exams/ManageExam';
 import ViewExam from './components/Manage Exams/ViewExam';
+import AccountSettings from './components/Account Settings/AccountSettings';
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
       {/* <AdminDashboard /> */}
       {/* <AdminPage /> */}
       {/* <ManageExam /> */}
+      {/* <AccountSettings /> */}
     </div>
   )
 }

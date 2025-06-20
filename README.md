@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Online Exam Portal
 
 An online exam management system built with the MERN stack (MongoDB, Express, React, Node.js) and Vite for a fast, modern development experience.
@@ -100,3 +101,5 @@ This project is licensed under the MIT License.
 ---
 
 **Contributions and feedback
+=======
+>>>>>>> d784a9d (Adding the component for Account Settings for the admin dashboard)

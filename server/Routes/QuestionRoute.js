@@ -41,17 +41,14 @@ router.get('/:examTitle', async (req, res) => {
     res.json({ questions: filteredQuestions });
 });
 
-router.delete('/:examTitle', async (req, res) => {
-    const { examTitle } = req.params;
-    try {
-        const result = await QuestionModel.deleteMany({ exam_name: examTitle });
-        if (result.deletedCount === 0) {
-            return res.status(404).json({ message: 'No questions found for this exam' });
-        }
-        res.json({ message: 'Exam and its questions deleted successfully' });
-    } catch (error) {
-        res.status(500).json({ message: 'Error deleting exam', error: error.message });
-    }
+router.delete('/:exam_title', async (req, res) => {
+  try {
+    const examTitle = req.params.exam_title;
+    await QuestionModel.deleteMany({ exam_name: examTitle });
+    res.status(200).json({ message: 'Exam deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete exam' });
+  }
 });
 
 export default router;
