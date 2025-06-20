@@ -12,13 +12,8 @@ const ManageExam = () => {
     try {
       const response = await fetch('http://localhost:3000/api/questions/all');
       const data = await response.json();
-      // Transform grouped object to array for rendering
-      if (data.questions) {
-        const examsArray = Object.entries(data.questions).map(([exam_title, questions]) => ({
-          exam_title,
-          questions,
-        }));
-        setExams(examsArray);
+      if (data.exams) {
+        setExams(data.exams);
       } else {
         setExams([]);
       }
@@ -38,7 +33,8 @@ const ManageExam = () => {
 
   const handleDelete = async (exam_title) => {
     try {
-      await fetch(`http://localhost:3000/api/questions/${exam_title}`, { method: 'DELETE' });
+      await fetch(`http://localhost:3000/api/questions/objective/${exam_title}`, { method: 'DELETE' });
+      await fetch(`http://localhost:3000/api/questions/subjective/${exam_title}`, { method: 'DELETE' });
       setExams((prev) => prev.filter((exam) => exam.exam_title !== exam_title));
     } catch (error) {
       alert('Error deleting exam');
@@ -60,6 +56,9 @@ const ManageExam = () => {
                 <Typography variant="h6">{exam.exam_title}</Typography>
                 <Typography variant="body2" style={{ margin: '8px 0' }}>
                   {exam.questions.length} Questions
+                </Typography>
+                <Typography variant="body2" color="textSecondary" style={{ marginBottom: 8 }}>
+                  Type: {exam.type}
                 </Typography>
                 <div>
                   <Button

@@ -9,6 +9,7 @@ const NavBar = ({ toggle, setToggle, name }) => {
 
   const isAdminDash = location.pathname === '/admin/dashboard';
   const isStudent = location.pathname === '/student/login' || location.pathname === '/student/signup';
+  const isStudentDash = location.pathname === '/student/dashboard';
 
   const handleToggle = () => {
     setMenuOpen((prev) => !prev);
@@ -30,7 +31,7 @@ const NavBar = ({ toggle, setToggle, name }) => {
           <li><Link to="/contact">Contact</Link></li>
         </ul>
 
-        {isAdminDash ? (
+        {(isAdminDash || isStudentDash) ? (
           <div className="navbar-auth">
             <Link to="/admin/login" className="logout-btn">Log Out</Link>
           </div>

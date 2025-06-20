@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const QuestionSchema = new mongoose.Schema({
+const ObjectiveQuestionSchema = new mongoose.Schema({
     id: {
         type: Number,
         required: true,
@@ -32,5 +32,5 @@ const QuestionSchema = new mongoose.Schema({
     },
 });
 
-const QuestionModel = mongoose.model("Question", QuestionSchema);
-export default QuestionModel;
+const ObjectiveOuestionModel = mongoose.model("Question", ObjectiveQuestionSchema);
+export default ObjectiveOuestionModel;

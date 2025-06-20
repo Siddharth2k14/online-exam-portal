@@ -1,8 +1,8 @@
 import { Card, Collapse, List, ListItem, ListItemText, Typography, Switch } from "@mui/material";
-import './AdminSideBar.css';
+import './SideBar.css';
 import { useState } from "react";
 
-const AdminSideBar = ({ onSectionSelect }) => {
+const SideBar = ({ onSectionSelect }) => {
     const [examOpen, setExamOpen] = useState(false);
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [themeMode, setThemeMode] = useState('light');
@@ -29,6 +29,7 @@ const AdminSideBar = ({ onSectionSelect }) => {
 
     // Check if the URL contains "admin/dashboard"
     const isAdminDashboard = window.location.pathname.includes("admin/dashboard");
+    const isStudentDashboard = location.pathname.includes("student/dashboard");
 
     return (
         <div className="sidebar-container">
@@ -113,4 +114,4 @@ const AdminSideBar = ({ onSectionSelect }) => {
     );
 }
 
-export default AdminSideBar;
+export default SideBar;

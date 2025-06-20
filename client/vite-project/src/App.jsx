@@ -6,7 +6,7 @@ import Admin from './pages/admin/Admin';
 import Student from './pages/student/Student';
 import ForgetPassword from './components/Authentication/Forget Password/ForgetPassword';
 import NavBar from './components/NavBar/NavBar';
-import AdminSideBar from './components/Admin SideBar/AdminSideBar'
+import SideBar from './components/SideBar/SideBar'
 import AdminDashboard from './pages/admin/Admin Dashboard/AdminDashboard';
 import AdminPage from './components/AdminPage/AdminPage'
 import ObjectiveExamCreation from './components/Objective Exam Creation/ObjectiveExamCreation';
@@ -14,6 +14,8 @@ import ObjectiveExamPage from './pages/admin/Objective Exam Page/ObjectiveExamPa
 import ManageExam from './components/Manage Exams/ManageExam';
 import ViewExam from './components/Manage Exams/ViewExam';
 import AccountSettings from './components/Account Settings/AccountSettings';
+import StudentDashboard from './pages/student/Student Dashboard/StudentDashboard';
+import SubjectiveExamCreation from './components/Subjective Exam Creation/SubjectiveExamCreation';
 
 const App = () => {
   return (
@@ -30,14 +32,17 @@ const App = () => {
         <Route path='/admin/dashboard' element={<AdminDashboard />} />
         <Route path='/exam-creation/objective' element={<ObjectiveExamPage />} />
         <Route path="/manage-exams/:examTitle" element={<ViewExam />} />
+        <Route path='/student/dashboard' element={<StudentDashboard />} />
+        <Route path='/exam-creation/subjective' element={<SubjectiveExamCreation />} />
       </Routes>
 
       {/* <NavBar /> */}
-      {/* <AdminSideBar /> */}
+      {/* <SideBar /> */}
       {/* <AdminDashboard /> */}
       {/* <AdminPage /> */}
       {/* <ManageExam /> */}
       {/* <AccountSettings /> */}
+      {/* <StudentDashboard /> */}
     </div>
   )
 }

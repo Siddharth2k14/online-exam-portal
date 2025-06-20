@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './AdminPage.css';
 import { Card, CardContent, Typography } from '@mui/material';
-import AdminSideBar from '../Admin SideBar/AdminSideBar';
+import SideBar from '../SideBar/SideBar';
 import ExamCreation from '../Exam Creation/ExamCreation';
 import ManageExam from '../Manage Exams/ManageExam';
 import AccountSettings from '../Account Settings/AccountSettings';
@@ -38,7 +38,7 @@ const AdminPage = () => {
 
   return (
     <>
-      <AdminSideBar onSectionSelect={setSelectedSection} />
+      <SideBar onSectionSelect={setSelectedSection} />
       <div className='admin-page'>
         <Typography variant='h4' className='admin-heading'>
           Admin Dashboard

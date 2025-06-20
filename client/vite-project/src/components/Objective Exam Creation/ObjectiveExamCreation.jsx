@@ -41,14 +41,11 @@ const ObjectiveExamCreation = () => {
     }));
 
     // Save to backend
-    await fetch('http://localhost:3000/api/questions', {
+    await fetch('http://localhost:3000/api/questions/objective', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        examTitle: titleExam,
-        // examTitle: titleExam || 'Default Exam Title',
+        examTitle: titleExam, // <-- sends exam_name, not examTitle
         question,
         options,
         correct,

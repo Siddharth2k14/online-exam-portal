@@ -7,24 +7,28 @@ import './ViewExam.css';
 const ViewExam = () => {
   const { examTitle } = useParams();
   const navigate = useNavigate();
-  const [questions, setQuestions] = useState([]);
+  const [exam, setExam] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchQuestions = async () => {
+    const fetchExam = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/questions/${encodeURIComponent(examTitle)}`);
-        setQuestions(res.data.questions || []);
+        // Fetch all exams and find the one matching examTitle
+        const res = await axios.get('http://localhost:3000/api/questions/all');
+        const exams = res.data.exams || [];
+        const foundExam = exams.find(e => e.exam_title === examTitle);
+        setExam(foundExam || null);
       } catch (error) {
-        setQuestions([]);
+        setExam(null);
       } finally {
         setLoading(false);
       }
     };
-    fetchQuestions();
+    fetchExam();
   }, [examTitle]);
 
   if (loading) return <Typography>Loading...</Typography>;
+  if (!exam) return <Typography>No exam found.</Typography>;
 
   return (
     <div className="view-exam-container">
@@ -37,28 +41,34 @@ const ViewExam = () => {
       </Button>
       <Card className="view-exam-card">
         <Typography variant="h4" className="view-exam-title" gutterBottom>
-          {examTitle}
+          {exam.exam_title}
         </Typography>
-        {questions.length === 0 ? (
+        {exam.questions.length === 0 ? (
           <Typography>No questions in this exam.</Typography>
         ) : (
-          questions.map((q, idx) => (
+          exam.questions.map((q, idx) => (
             <div key={idx} className="view-exam-question-block">
               <Typography className="view-exam-question" variant="subtitle1">
-                {idx + 1}. {q.question_title}
+                {idx + 1}. {q.question_title || q.question}
               </Typography>
-              {q.options && q.options.map((opt, oidx) => (
-                <Typography
-                  key={oidx}
-                  className={`view-exam-option${q.correct_option === oidx ? ' correct-option' : ''}`}
-                  style={q.correct_option === oidx ? { fontWeight: 'bold', color: '#388e3c' } : {}}
-                >
-                  {String.fromCharCode(65 + oidx)}. {opt}
-                  {q.correct_option === oidx && (
-                    <span style={{ marginLeft: 8, color: '#388e3c' }}>(Correct)</span>
-                  )}
+              {exam.type === 'Objective' && q.options ? (
+                q.options.map((opt, oidx) => (
+                  <Typography
+                    key={oidx}
+                    className={`view-exam-option${q.correct_option === oidx ? ' correct-option' : ''}`}
+                    style={q.correct_option === oidx ? { fontWeight: 'bold', color: '#388e3c' } : {}}
+                  >
+                    {String.fromCharCode(65 + oidx)}. {opt}
+                    {q.correct_option === oidx && (
+                      <span style={{ marginLeft: 8, color: '#388e3c' }}>(Correct)</span>
+                    )}
+                  </Typography>
+                ))
+              ) : (
+                <Typography className="view-exam-answer" style={{ marginTop: 8, color: '#1976d2' }}>
+                  Answer: {q.answer}
                 </Typography>
-              ))}
+              )}
             </div>
           ))
         )}
