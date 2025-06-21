@@ -48,21 +48,46 @@ const SideBar = ({ onSectionSelect }) => {
                         Exam Management
                     </Typography>
 
-                    <Collapse
-                        in={examOpen}
-                        timeout="auto"
-                        unmountOnExit
-                        className="exam-list"
-                    >
-                        <List>
-                            <ListItem button onClick={() => onSectionSelect('Exam Creation')}>
-                                <ListItemText primary="Exam Creation" />
-                            </ListItem>
-                            <ListItem button onClick={() => onSectionSelect('Manage Exams')}>
-                                <ListItemText primary="Manage Exams" />
-                            </ListItem>
-                        </List>
-                    </Collapse>
+                    {isAdminDashboard ? (
+                        <Collapse
+                            in={examOpen}
+                            timeout="auto"
+                            unmountOnExit
+                            className="exam-list"
+                        >
+                            <List>
+                                <ListItem onClick={() => onSectionSelect('Exam Creation')}>
+                                    <ListItemText primary="Exam Creation" />
+                                </ListItem>
+                                <ListItem onClick={() => onSectionSelect('Manage Exams')}>
+                                    <ListItemText primary="Manage Exams" />
+                                </ListItem>
+                            </List>
+                        </Collapse>
+                    ) : isStudentDashboard ? (
+                        <Collapse
+                            in={examOpen}
+                            timeout="auto"
+                            unmountOnExit
+                            className="exam-list"
+                        >
+                            <List>
+                                <ListItem onClick={() => onSectionSelect('Exams')}>
+                                    <ListItemText primary="Exams" />
+                                </ListItem>
+                                <ListItem onClick={() => onSectionSelect('View Exam')}>
+                                    <ListItemText primary="View Exam" />
+                                </ListItem>
+                                <ListItem onClick={() => onSectionSelect('Result')}>
+                                    <ListItemText primary="Result" />
+                                </ListItem>
+                            </List>
+                        </Collapse>
+                    ) : (
+                        <Typography>
+                            Error
+                        </Typography>
+                    )}
                 </Card>
 
                 <Card className="settings" variant="outlined" sx={{
@@ -87,8 +112,7 @@ const SideBar = ({ onSectionSelect }) => {
                             <ListItem button onClick={() => onSectionSelect('Account Settings')}>
                                 <ListItemText primary="Account Settings" />
                             </ListItem>
-                            {/* Only show Change Password if not on admin/dashboard */}
-                            {!isAdminDashboard && (
+                            {isStudentDashboard && (
                                 <ListItem button onClick={() => onSectionSelect('Change Password')}>
                                     <ListItemText primary="Change Password" />
                                 </ListItem>

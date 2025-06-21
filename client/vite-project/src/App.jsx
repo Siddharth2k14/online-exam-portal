@@ -16,6 +16,7 @@ import ViewExam from './components/Manage Exams/ViewExam';
 import AccountSettings from './components/Account Settings/AccountSettings';
 import StudentDashboard from './pages/student/Student Dashboard/StudentDashboard';
 import SubjectiveExamCreation from './components/Subjective Exam Creation/SubjectiveExamCreation';
+import StudentPage from './components/StudentPage/StudentPage';
 
 const App = () => {
   return (
@@ -43,6 +44,7 @@ const App = () => {
       {/* <ManageExam /> */}
       {/* <AccountSettings /> */}
       {/* <StudentDashboard /> */}
+      {/* <StudentPage /> */}
     </div>
   )
 }

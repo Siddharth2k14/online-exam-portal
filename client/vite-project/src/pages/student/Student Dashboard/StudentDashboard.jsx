@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import NavBar from '../../../components/NavBar/NavBar'
 import SideBar from '../../../components/SideBar/SideBar';
+import StudentPage from '../../../components/StudentPage/StudentPage';
 
 const StudentDashboard = () => {
     const [toggle, setToggle] = useState(false);
@@ -8,7 +9,8 @@ const StudentDashboard = () => {
   return (
     <div>
       <NavBar toggle={toggle} setToggle={setToggle} name="student" />
-      <SideBar />
+      {/* <SideBar /> */}
+      <StudentPage />
     </div>
   )
 }
