@@ -1,0 +1,191 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100vw;
+    /* background: #1976d2; */
+    background: linear-gradient(195deg, #0f2027, #2c5364);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    height: 64px;
+    /* position: relative; */
+    /* z-index: 10; */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.navbar-brand a {
+    color: #fff;
+    font-size: 1.7rem;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.navbar-menu {
+    list-style: none;
+    display: flex;
+    gap: 24px;
+    margin: 0;
+    padding: 0 24px;
+    flex: 1;
+    align-items: center;
+}
+
+.navbar-menu li a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.navbar-menu li a {
+    /* color: #90caf9; */
+    background-color: linear-gradient(195deg, #0f2027, #2c5364);
+    color: transparent;
+    text-decoration: underline;
+    text-decoration-color: rgba(20, 4, 100, 0.432);
+    font-size: 1.1rem;
+    transition: color 0.2s;
+}
+
+.navbar-auth {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    background: #fff;
+    color: #1976d2;
+    padding: 6px 18px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background 0.2s, color 0.2s;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #1565c0;
+    color: #fff;
+}
+
+.navbar-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    margin-left: 16px;
+}
+
+.bar {
+    width: 25px;
+    height: 3px;
+    background: #fff;
+    margin: 4px 0;
+    border-radius: 2px;
+}
+
+.navbar-collapse,
+.navbar-overlay,
+.navbar-backdrop,
+.navbar-close {
+    display: none;
+}
+
+.navbar-collapse.open,
+.navbar-overlay.open,
+.navbar-backdrop.open,
+.navbar-close.open {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 1100;
+}
+
+.navbar-collapse.open {
+    background: #1976d2;
+    width: 80vw;
+    max-width: 320px;
+    height: 100vh;
+    padding: 32px 24px;
+    box-shadow: 2px 0 16px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.navbar-overlay.open,
+.navbar-backdrop.open {
+    background: rgba(0,0,0,0.3);
+    height: 100vh;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    z-index: 1099;
+}
+
+.navbar-close.open {
+    position: fixed;
+    right: 24px;
+    top: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1200;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+    .navbar {
+        flex-wrap: wrap;
+        padding: 0 12px;
+        height: auto;
+    }
+    .navbar-menu {
+        display: none;
+    }
+    .navbar-auth {
+        display: none;
+    }
+    .navbar-toggle {
+        display: flex;
+        margin-left: auto;
+    }
+    /* You can add JS to toggle .navbar-collapse, .navbar-overlay, etc. */
+}
+
+/* Optional: Style for collapse/overlay/backdrop if you implement mobile menu logic */
+
+.logout-btn {
+    background: #fff;
+    color: #1976d2;
+    padding: 6px 18px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background 0.2s, color 0.2s;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background: linear-gradient(195deg, #0f2027, #2c5364);;
+    color: #fff;
+}
