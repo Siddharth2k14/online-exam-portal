@@ -23,7 +23,7 @@ const App = () => {
   return (
     <div>
 
-      <Routes>
+      {/* <Routes>
         <Route path="/" element={<Student />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/admin/login" element={<Admin />} />
@@ -37,9 +37,9 @@ const App = () => {
         <Route path='/student/dashboard' element={<StudentDashboard />} />
         <Route path='/exam-creation/subjective' element={<SubjectiveExamCreation />} />
         <Route path="/start-exam/:examTitle" element={<StartExam />} />
-      </Routes>
+      </Routes> */}
 
-      {/* <NavBar /> */}
+      <NavBar />
       {/* <SideBar /> */}
       {/* <AdminDashboard /> */}
       {/* <AdminPage /> */}

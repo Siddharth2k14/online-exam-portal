@@ -51,26 +51,24 @@ const NavBar = ({ toggle, setToggle, name }) => {
           <span className="bar"></span>
           <span className="bar"></span>
         </div>
-
-        {/* <div className={`navbar-collapse${menuOpen ? ' open' : ''}`}>
-          <ul className="navbar-menu">
-            <li><Link to="/" onClick={handleClose}>Home</Link></li>
-            <li><Link to="/about" onClick={handleClose}>About</Link></li>
-            <li><Link to="/contact" onClick={handleClose}>Contact</Link></li>
-          </ul>
-          <div className="navbar-auth">
-            <Link to="/student/login" className="btn" onClick={handleClose}>Login</Link>
-            <Link to="/signup" className="btn" onClick={handleClose}>Sign Up</Link>
-          </div>
-        </div>
-        <div className={`navbar-overlay${menuOpen ? ' open' : ''}`} onClick={handleClose}></div>
-        <div className={`navbar-backdrop${menuOpen ? ' open' : ''}`} onClick={handleClose}></div>
-        <div className={`navbar-close${menuOpen ? ' open' : ''}`} onClick={handleClose}>
-          <span className="bar"></span>
-          <span className="bar"></span>
-          <span className="bar"></span>
-        </div> */}
       </nav>
+      <div className={`navbar-overlay${menuOpen ? ' open' : ''}`} onClick={handleClose}></div>
+      <div className={`navbar-collapse${menuOpen ? ' open' : ''}`}>
+        <ul className="navbar-menu">
+          <li><Link to="/" onClick={handleClose}>Home</Link></li>
+          <li><Link to="/about" onClick={handleClose}>About</Link></li>
+          <li><Link to="/contact" onClick={handleClose}>Contact</Link></li>
+        </ul>
+        <div className="navbar-auth">
+          <Link to="/student/login" className="btn" onClick={handleClose}>Login</Link>
+          <Link to="/signup" className="btn" onClick={handleClose}>Sign Up</Link>
+        </div>
+        <div className="navbar-close" onClick={handleClose}>
+          <span className="bar"></span>
+          <span className="bar"></span>
+          <span className="bar"></span>
+        </div>
+      </div>
     </div>
   )
 }
