@@ -3,6 +3,7 @@ import './StudentPage.css'
 import { useState } from 'react'
 import SideBar from '../SideBar/SideBar';
 import ExamsPage from '../ExamsPage/ExamsPage';
+import ViewExam from '../ViewExam/ViewExam';
 
 const StudentPage = () => {
     const [selectedSection, setSelectedSection] = useState('');
@@ -14,9 +15,7 @@ const StudentPage = () => {
 
         else if (selectedSection === 'View Exam') {
             return (
-                <Typography>
-                    This is the page for "View Exam".
-                </Typography>
+                <ViewExam />
             )
         }
 

@@ -18,6 +18,7 @@ import StudentDashboard from './pages/student/Student Dashboard/StudentDashboard
 import SubjectiveExamCreation from './components/Subjective Exam Creation/SubjectiveExamCreation';
 import StudentPage from './components/StudentPage/StudentPage';
 import StartExam from './components/StartExam/StartExam';
+import View_Exam from './components/ViewExam/ViewExam';
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
         <Route path='/student/dashboard' element={<StudentDashboard />} />
         <Route path='/exam-creation/subjective' element={<SubjectiveExamCreation />} />
         <Route path="/start-exam/:examTitle" element={<StartExam />} />
+        <Route path="/exam/:examTitle/review" element={<View_Exam />} />
       </Routes>
 
       {/* <NavBar /> */}
