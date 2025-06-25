@@ -33,7 +33,7 @@ const NavBar = ({ toggle, setToggle, name }) => {
 
         {(isAdminDash || isStudentDash) ? (
           <div className="navbar-auth">
-            <Link to="/admin/login" className="logout-btn">Log Out</Link>
+            <Link to={isStudentDash ? "/student/login" : "/admin/login"} className="logout-btn">Log Out</Link>
           </div>
         ) : (name === "admin" ? (
           <div className="navbar-auth">

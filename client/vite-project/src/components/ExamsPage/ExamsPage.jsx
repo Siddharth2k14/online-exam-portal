@@ -5,13 +5,30 @@ import './ExamsPage.css';
 import StartExam from '../StartExam/StartExam.jsx';
 import { useNavigate } from "react-router-dom";
 
+const LOCAL_STORAGE_KEY = "studentExamHistory";
+
 const ExamsPage = () => {
   const [exams, setExams] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [loading, setLoading] = useState(true);
   const [subjects, setSubjects] = useState([]);
+  const [completedExamTitles, setCompletedExamTitles] = useState([]);
   const navigate = useNavigate();
+
+  // Load completed exams from localStorage
+  useEffect(() => {
+    const data = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (data) {
+      try {
+        const history = JSON.parse(data);
+        const titles = history.map((item) => item.exam.exam_title);
+        setCompletedExamTitles(titles);
+      } catch { /* ignore JSON parse errors, treat as no completed exams */ }
+    } else {
+      setCompletedExamTitles([]);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchExams = async () => {
@@ -20,8 +37,17 @@ const ExamsPage = () => {
         const examData = response.data.exams || [];
         setExams(examData);
 
-        // Extract unique subjects
-        const uniqueSubjects = [...new Set(examData.map(exam => exam.exam_title))];
+        // Extract unique subjects only from exams not completed
+        const data = localStorage.getItem(LOCAL_STORAGE_KEY);
+        let completedTitles = [];
+        if (data) {
+          try {
+            const history = JSON.parse(data);
+            completedTitles = history.map((item) => item.exam.exam_title);
+          } catch { /* ignore JSON parse errors, treat as no completed exams */ }
+        }
+        const availableExams = examData.filter(exam => !completedTitles.includes(exam.exam_title));
+        const uniqueSubjects = [...new Set(availableExams.map(exam => exam.exam_title))];
         setSubjects(uniqueSubjects);
         setLoading(false);
       } catch (error) {
@@ -32,10 +58,12 @@ const ExamsPage = () => {
     fetchExams();
   }, []);
 
+  // Filter out completed exams
   const filteredExams = exams.filter(exam => {
     const matchesSubject = !selectedSubject || exam.exam_title === selectedSubject;
     const matchesType = !selectedType || exam.type === selectedType;
-    return matchesSubject && matchesType;
+    const notCompleted = !completedExamTitles.includes(exam.exam_title);
+    return matchesSubject && matchesType && notCompleted;
   });
 
   const handleStartExam = (exam) => {

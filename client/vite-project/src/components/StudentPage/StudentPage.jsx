@@ -4,9 +4,12 @@ import { useState } from 'react'
 import SideBar from '../SideBar/SideBar';
 import ExamsPage from '../ExamsPage/ExamsPage';
 import ViewExam from '../ViewExam/ViewExam';
+import { useSelector } from 'react-redux';
+import Result from '../Result/Result';
 
 const StudentPage = () => {
     const [selectedSection, setSelectedSection] = useState('');
+    const user = useSelector(state => state.auth.user);
 
     const renderContent = () => {
         if (selectedSection === 'Exams') {
@@ -21,9 +24,7 @@ const StudentPage = () => {
 
         else if (selectedSection === 'Result') {
             return (
-                <Typography>
-                    This is the page for "Result".
-                </Typography>
+                <Result />
             )
         }
 
@@ -31,7 +32,7 @@ const StudentPage = () => {
             <>
                 <div className='student-welcome'>
                     <Typography variant="h6" gutterBottom>
-                        Welcome, Student!
+                        Welcome, {user?.name || 'Student'}!
                     </Typography>
                     <Typography variant="body1">
                         Use the sidebar to manage exams and settings.

@@ -16,7 +16,7 @@ router.post('/signup', async (req, res) => {
     if (existingUser) {
         return res.status(400).json({ message: 'User already exists' });
     }
-    const user = new AuthModel({ email, password });
+    const user = new AuthModel({ name, email, password });
     await user.save();
     res.status(201).json({ user: { name, email }, token: 'mock-token' });
 });
