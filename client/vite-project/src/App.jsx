@@ -19,6 +19,10 @@ import SubjectiveExamCreation from './components/Subjective Exam Creation/Subjec
 import StudentPage from './components/StudentPage/StudentPage';
 import StartExam from './components/StartExam/StartExam';
 import View_Exam from './components/ViewExam/ViewExam';
+import Home from './pages/Home/Home';
+import About from './pages/About/About';
+import Contact from './pages/Contact/Contact';
+import HomeMain from './components/Home Main/homeMain';
 
 const App = () => {
   return (
@@ -39,6 +43,9 @@ const App = () => {
         <Route path='/exam-creation/subjective' element={<SubjectiveExamCreation />} />
         <Route path="/start-exam/:examTitle" element={<StartExam />} />
         <Route path="/exam/:examTitle/review" element={<View_Exam />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
 
       {/* <NavBar /> */}
@@ -49,6 +56,8 @@ const App = () => {
       {/* <AccountSettings /> */}
       {/* <StudentDashboard /> */}
       {/* <StudentPage /> */}
+      {/* <Home /> */}
+      {/* <HomeMain /> */}
     </div>
   )
 }
