@@ -19,7 +19,6 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/questions', questionRoutes);
 app.use('/api/auth', authRoute);
-
 // Signup route (remains as is, still uses Supabase)
 // import { createClient } from '@supabase/supabase-js';
 // const supabaseUrl = process.env.SUPABASE_URL;

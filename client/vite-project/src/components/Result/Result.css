@@ -25,10 +25,8 @@
 }
 
 .result-card {
-  flex: 1 1 250px;
   min-width: 220px;
   max-width: 300px;
-  padding: 24px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(25, 118, 210, 0.1);
   background: #fff;
@@ -45,10 +43,9 @@
 }
 
 .result-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 1.8fr;
-  gap: 32px;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .result-left {
@@ -67,28 +64,23 @@
   justify-content: center;
 }
 
-.result-left .result-card-title {
+.result-left {
   margin-top: 16px;
   color: #fff;
   text-align: center;
 }
 
 .result-large-card {
-  width: 250px;
+  min-width: 860px;
   height: 250px;
-  border-radius: 50%;
-  box-shadow: 0 2px 25px rgba(25, 118, 210, 0.527);
-  background: #1976d2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
+  border-radius: 12px;
 }
 
 .result-right {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  margin-top: 25px;
 }
 
 .result-score {
@@ -100,7 +92,7 @@
   margin-top: 12px;
 }
 
-.result-score .result-card-title {
+.result-score {
   font-weight: bold;
   font-size: 1.2rem;
   color: #fff;
@@ -121,4 +113,53 @@
     min-width: 120px;
     min-height: 120px;
   }
+}
+
+.result-card-title {
+  /* font-weight: bold;
+  font-size: 1.2rem;
+  color: #fff;
+  text-align: center;
+  margin-top: 16px;
+  color: #fff;
+  text-align: center; */
+}
+
+.result-box {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  margin-top: 32px;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(25, 118, 210, 0.08);
+  padding: 32px 24px;
+}
+
+.result-right {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1;
+}
+
+@media (max-width: 900px) {
+  .result-box {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 8px;
+  }
+  .result-right {
+    width: 100%;
+    align-items: center;
+  }
+}
+
+.result-box > div:last-child {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

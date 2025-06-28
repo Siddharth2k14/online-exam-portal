@@ -1,10 +1,13 @@
 import React from 'react';
-import './About.css';
+import NavBar from '../../components/NavBar/NavBar';
+import AboutMain from '../../components/About Main/AboutMain';
+import Footer from '../../components/Home Footer/Footer';
 
 const About = () => (
-  <div className="about-container">
-    <h1>About Us</h1>
-    <p>Our Online Exam Portal is designed to make exam management and participation easy for students and administrators.</p>
+  <div>
+    <NavBar />
+    <AboutMain />
+    <Footer />
   </div>
 );
 

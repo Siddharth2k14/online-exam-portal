@@ -1,4 +1,5 @@
-import { Box, Typography, Link } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 import './Footer.css';
 
 const Footer = () => (
@@ -7,10 +8,18 @@ const Footer = () => (
             {/* Left: Navigation Links */}
             <Box className="footer-left">
                 <Typography className="footer-title" variant="h6">NAVIGATION LINKS</Typography>
-                <Typography className="footer-link" variant="subtitle1">HOME</Typography>
-                <Typography className="footer-link" variant="subtitle1">STUDENT LOGIN</Typography>
-                <Typography className="footer-link" variant="subtitle1">ADMIN LOGIN</Typography>
-                <Typography className="footer-link" variant="subtitle1">SIGNUP</Typography>
+                <Typography className="footer-link" variant="subtitle1">
+                    <Link to="/home" className='footer-link'>HOME</Link>
+                </Typography>
+                <Typography className="footer-link" variant="subtitle1">
+                    <Link to="/student" className='footer-link'>STUDENT LOGIN</Link>
+                </Typography>
+                <Typography className="footer-link" variant="subtitle1">
+                    <Link to="/admin" className='footer-link'>ADMIN LOGIN</Link>
+                </Typography>
+                <Typography className="footer-link" variant="subtitle1">
+                    <Link to="/signup" className='footer-link'>SIGNUP</Link>
+                </Typography>
             </Box>
 
             {/* Right: Credits and Social */}
@@ -20,13 +29,13 @@ const Footer = () => (
                     Built with <span className="footer-heart">❤️</span> by Siddharth Singh
                 </Typography>
                 <Typography className="footer-social" variant="subtitle1">
-                    <Link href="https://github.com/Siddharth2k14" target="_blank" rel="noopener" underline="hover" color="inherit">
+                    <a href="https://github.com/Siddharth2k14" target="_blank" rel="noopener" underline="hover" color="inherit">
                         GitHub
-                    </Link>
+                    </a>
                     {' | '}
-                    <Link href="https://www.linkedin.com/in/siddharth-singh-a2a822253/" target="_blank" rel="noopener" underline="hover" color="inherit">
+                    <a href="https://www.linkedin.com/in/siddharth-singh-a2a822253/" target="_blank" rel="noopener" underline="hover" color="inherit">
                         LinkedIn
-                    </Link>
+                    </a>
                 </Typography>
             </Box>
         </Box>

@@ -1,10 +1,12 @@
-import React from 'react';
-import './Contact.css';
+import ContactMain from "../../components/Contact Main/ContactMain";
+import Footer from "../../components/Home Footer/Footer";
+import NavBar from "../../components/NavBar/NavBar";
 
 const Contact = () => (
-  <div className="contact-container">
-    <h1>Contact Us</h1>
-    <p>For any inquiries or support, please email us at support@examportal.com.</p>
+  <div>
+    <NavBar />
+    <ContactMain />
+    <Footer />
   </div>
 );
 
