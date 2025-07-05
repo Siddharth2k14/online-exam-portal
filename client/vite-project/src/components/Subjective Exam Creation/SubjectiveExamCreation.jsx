@@ -22,7 +22,7 @@ const SubjectiveExamCreation = () => {
     }
 
     // Save to backend
-    await fetch('https://online-exam-portal-server.onrender.com/api/questions/subjective', {
+    await fetch('http://localhost:3000/api/questions/subjective', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

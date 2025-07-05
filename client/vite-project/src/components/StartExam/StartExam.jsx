@@ -60,7 +60,7 @@ const StartExam = () => {
       try {
         // ① Try objective first
         let res = await fetch(
-          `https://online-exam-portal-server.onrender.com/api/questions/objective/${encodeURIComponent(
+          `http://localhost:3000/api/questions/objective/${encodeURIComponent(
             examTitle
           )}`
         );
@@ -80,7 +80,7 @@ const StartExam = () => {
         } else {
           // ② Fallback to subjective
           res = await fetch(
-            `https://online-exam-portal-server.onrender.com/api/questions/subjective/${encodeURIComponent(
+            `http://localhost:3000/api/questions/subjective/${encodeURIComponent(
               examTitle
             )}`
           );
