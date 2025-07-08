@@ -24,23 +24,25 @@ const ExamCreation = () => {
   const [open, setOpen] = useState(false);
   const [examType, setExamType] = useState('objective');
   const [examCreated, setExamCreated] = useState(false);
+  const [error, setError] = useState(''); // Add error state
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleCreateExam = async () => {
+    // Validation: check if titleExam and examType are filled
+    if (!titleExam.trim() || !examType) {
+      setError('Please fill all fields.');
+      setOpen(true);
+      return;
+    }
+    setError('');
     setOpen(true);
     setExamCreated(true);
-    // Dispatch to Redux
     dispatch(addExam({ title: titleExam, type: examType }));
-
-    // Save exam to backend (optional, if you have an endpoint)
-    // await axios.post('http://localhost:3000/api/exams', { title: titleExam, type: examType });
 
     if (examType === 'objective') {
       navigate('/exam-creation/objective', { state: { titleExam } });
-    }
-    // You can add similar logic for subjective if needed
-    else if (examType === 'subjective') {
+    } else if (examType === 'subjective') {
       navigate('/exam-creation/subjective', { state: { titleExam } });
     }
   };
@@ -64,10 +66,12 @@ const ExamCreation = () => {
   return (
     <>
       <Typography
-        variant='h6'
+        variant='h4'
         gutterBottom
         sx={{
-          textAlign: 'center'
+          margin: '32px 0 16px 0',
+          textAlign: 'center',
+          color: 'white'
         }}
       >
         Exam Creation
@@ -111,18 +115,20 @@ const ExamCreation = () => {
         >
           Create Exam
         </Button>
+        {/* Show error or success Snackbar */}
+        <Snackbar
+          open={open}
+          autoHideDuration={3000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+          <Alert onClose={handleClose} severity={error ? "error" : "success"} sx={{ width: '100%' }}>
+            {error
+              ? error
+              : `Exam for ${titleExam} subject of ${examType} type questions is Created`}
+          </Alert>
+        </Snackbar>
       </Card>
-
-      <Snackbar
-        open={open}
-        autoHideDuration={3000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Exam for {titleExam} subject of {examType} type questions is Created
-        </Alert>
-      </Snackbar>
     </>
   );
 };

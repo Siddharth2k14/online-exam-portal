@@ -27,9 +27,8 @@ import HomeMain from './components/Home Main/homeMain';
 const App = () => {
   return (
     <div>
-
       <Routes>
-        <Route path="/" element={<Student />} />
+        <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/admin/login" element={<Admin />} />
         <Route path='/student/login' element={<Student />} />

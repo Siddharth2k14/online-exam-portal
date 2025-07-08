@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import NavBar from '../../../components/NavBar/NavBar'
 import SideBar from '../../../components/SideBar/SideBar';
-import StudentPage from '../../../components/StudentPage/StudentPage';
+import StudentPage from '../../../components/StudentPage/StudentPage.jsx';
 
 const StudentDashboard = () => {
     const [toggle, setToggle] = useState(false);
@@ -15,4 +15,4 @@ const StudentDashboard = () => {
   )
 }
 
-export default StudentDashboard
+export default StudentDashboard;
