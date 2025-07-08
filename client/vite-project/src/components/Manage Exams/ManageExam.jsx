@@ -10,7 +10,7 @@ const ManageExam = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/questions/all');
+      const response = await fetch('https://online-exam-portal-server.onrender.com/api/questions/all');
       const data = await response.json();
       if (data.exams) {
         setExams(data.exams);
@@ -33,8 +33,8 @@ const ManageExam = () => {
 
   const handleDelete = async (exam_title) => {
     try {
-      await fetch(`http://localhost:3000/api/questions/objective/${exam_title}`, { method: 'DELETE' });
-      await fetch(`http://localhost:3000/api/questions/subjective/${exam_title}`, { method: 'DELETE' });
+      await fetch(`https://online-exam-portal-server.onrender.com/api/questions/objective/${exam_title}`, { method: 'DELETE' });
+      await fetch(`https://online-exam-portal-server.onrender.com/api/questions/subjective/${exam_title}`, { method: 'DELETE' });
       setExams((prev) => prev.filter((exam) => exam.exam_title !== exam_title));
     } catch (error) {
       alert('Error deleting exam');
@@ -43,7 +43,11 @@ const ManageExam = () => {
 
   return (
     <div>
+<<<<<<< HEAD
       <Typography variant="h4" style={{ margin: '32px 0 16px 0', textAlign: 'center', color: 'white' }}>
+=======
+      <Typography variant="h4" style={{ margin: '32px 0 16px 0', textAlign: 'center', color: 'white'  }}>
+>>>>>>> 38e97fa87c851ede510140be7c20c26d3a2d5891
         Manage Exams
       </Typography>
       {viewExamTitle ? (

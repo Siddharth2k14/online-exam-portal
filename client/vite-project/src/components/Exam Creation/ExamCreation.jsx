@@ -55,8 +55,8 @@ const ExamCreation = () => {
   // handleDelete is already correct:
   const handleDelete = async (title) => {
     try {
-      await axios.delete(`http://localhost:3000/api/questions/objective/${title}`);
-      await axios.delete(`http://localhost:3000/api/questions/subjective/${title}`);
+      await axios.delete(`https://online-exam-portal-server.onrender.com/api/questions/objective/${title}`);
+      await axios.delete(`https://online-exam-portal-server.onrender.com/api/questions/subjective/${title}`);
       setExams((prev) => prev.filter((exam) => exam.title !== title));
     } catch (error) {
       console.error('Error deleting exam:', error.message);
